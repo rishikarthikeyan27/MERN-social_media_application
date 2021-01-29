@@ -5,8 +5,8 @@ const { check, validationResult} = require('express-validator/check')
 //@desc     Register user
 //@access   Public
 
-router.post('/', [
-
+router.post('/',[
+    //creating checks for each field
     check('name', 'Name is required')
     .not()
     .isEmpty(),
@@ -20,7 +20,18 @@ router.post('/', [
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array()});
     }
-    res.send('User Route');
+    else{
+        res.send("Success")
+        return res.status(200)   
+    }
+    // See if user exists
+
+    // Get users Gravatar
+
+    //Encrypt the password using bcrypt
+
+    //Return jsonwebtoken
+
 });
 
 module.exports = router;
