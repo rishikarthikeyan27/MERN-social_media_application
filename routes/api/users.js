@@ -6,11 +6,12 @@ const jwt = require('jsonwebtoken')
 const config = require('config')
 
 const { check, validationResult} = require('express-validator/check')
+
+const User = require('../../models/User') //we are importing the model so now we have 
+
 //@route    POST api/users
 //@desc     Register user
 //@access   Public
-
-const User = require('../../models/User') //we are importing the model so now we have 
 
 router.post('/',[
     //creating checks for each field
@@ -72,7 +73,7 @@ router.post('/',[
         //     iat: 1612004766,
         //     exp: 1612364766
         //   }
-        
+
         const payload = {
             user:{
                 id: user.id

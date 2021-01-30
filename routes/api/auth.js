@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs')
 const { check, validationResult } = require('express-validator/check');
 const config = require('config');
+
 //Once we get the token, we are going to make a call to our database
 router.get('/', auth, async (req, res)=> {
     try{
