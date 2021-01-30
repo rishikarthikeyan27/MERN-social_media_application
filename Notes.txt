@@ -7,3 +7,6 @@ Headers and metadata are sent only to enable payload delivery.
 jwt.verify(token, jwtSecret) ---->
 Returns the payload decoded if the signature is valid and 
 optional expiration, audience, or issuer are valid. If not, it will throw the error.
+
+The beauty of software systems is that storing, retrieving information is the single most important and fundamental thing they do.
+That is why we need to put in such massive amounts of effort into building the backend..
