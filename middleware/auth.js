@@ -17,7 +17,7 @@ module.exports = function(req, res, next){
         const decoded = jwt.verify(token, config.get('jwtSecret'));
         console.log('This is what has been decoded \n', decoded)
         req.user = decoded.user;
-        next();
+        next(); //so that the callback function can be executed
     }
     catch(err){
         res.status(401).json({msg: 'Token is not valid'})
