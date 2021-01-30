@@ -10,3 +10,14 @@ optional expiration, audience, or issuer are valid. If not, it will throw the er
 
 The beauty of software systems is that storing, retrieving information is the single most important and fundamental thing they do.
 That is why we need to put in such massive amounts of effort into building the backend..
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+REMEMBER how router.get('/', auth, (req,res)=> {}) happens, this is because firstly we want auth to run first when the route is entered
+after that is executed we can run our normal callback function that takes in req and res objects. Hence the name "Middleware"
+
+# By the way 'auth' here is a function
+
+You can provide multiple callback functions that behave like middleware to handle a request. 
+The only exception is that these callbacks might invoke next('route') to bypass the remaining route callbacks. 
+You can use this mechanism to impose pre-conditions on a route, 
+then pass control to subsequent routes if there’s no reason to proceed with the current route.
