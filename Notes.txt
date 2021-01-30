@@ -1,0 +1,9 @@
+
+
+The payload is the part of 
+transmitted data that is the actual intended message. 
+Headers and metadata are sent only to enable payload delivery.
+
+jwt.verify(token, jwtSecret) ---->
+Returns the payload decoded if the signature is valid and 
+optional expiration, audience, or issuer are valid. If not, it will throw the error.
