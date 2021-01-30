@@ -69,12 +69,39 @@ router.post('/', [  auth, [
         if(bio) profileFields.bio = bio ;
         if(status) profileFields.status = status ;
         if(githubusername) profileFields.githubusername = githubusername ;
-        if(skills) profileFields.skills = skills ;
-        if(youtube) profileFields.youtube = youtube ;
-        if(facebook) profileFields.facebook = facebook ;
-        if(twitter) profileFields.twitter = twitter ;
-        if(instagram) profileFields.instagram = instagram ;
-        if(linkedin) profileFields.linkedin = linkedin ;
+        if(skills) {
+            profileFields.skills = skills.split(',').map(skill => skill.trim()); //remeber each skill is a string that may contain white spaces
+        };
+
+        //Build Social object
+        profileFields.social = {}
+        if(youtube) profileFields.social.youtube = youtube ;
+        if(facebook) profileFields.social.facebook = facebook ;
+        if(twitter) profileFields.social.twitter = twitter ;
+        if(instagram) profileFields.social.instagram = instagram ;
+        if(linkedin) profileFields.social.linkedin = linkedin ;
+
+        try{
+            let profile = await Profile.findOne({user: req.user.id})
+            if(profile){
+                //Update
+                profile = await Profile.findOneAndUpdate({user : req.user.id}, 
+                { $set: profileFields},
+                {new:true});
+                return res.json(profile)
+            }
+
+            //Create
+            profile = new Profile(profileFields);
+            await profile.save();
+            res.json(profile)
+
+
+        }catch(err){
+            console.error(err.message);
+            res.send(500).send('Server Error')
+        }
+        
 })
 
 module.exports = router;
