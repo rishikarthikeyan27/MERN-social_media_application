@@ -65,6 +65,14 @@ router.post('/',[
 
         await user.save();
 
+        //Notice how we are sending the id of a user as a payload by putting the id's value in an object for user
+        //This is what will be decoded
+        // {
+        //     user: { id: '60153d9e513e5b38e53917c2' },
+        //     iat: 1612004766,
+        //     exp: 1612364766
+        //   }
+        
         const payload = {
             user:{
                 id: user.id
