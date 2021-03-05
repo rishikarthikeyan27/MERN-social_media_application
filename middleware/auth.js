@@ -14,9 +14,10 @@ module.exports = function(req, res, next){
 
     //verify token
     try{
-        const decoded = jwt.verify(token, config.get('jwtSecret'));
-        console.log('This is what has been decoded \n', decoded)
-        req.user = decoded.user;
+        const decoded = jwt.verify(token, config.get('jwtSecret')); //Decoding the token to get the following => {user:{id : ##}, iat: ##, exp: ##}
+        
+        console.log('This is what has been decoded \n', decoded);
+        req.user = decoded.user; // We are saving the user id sent by the x-auth-token into req.user
         next(); //so that the callback function can be executed
     }
     catch(err){
