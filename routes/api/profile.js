@@ -163,7 +163,7 @@ router.put('/experience', [
             .isEmpty(),
         check('from', 'From date is required')
             .not()
-            .isEmpty(),
+            .isEmpty()
         
 ]], 
 async(req, res) => {
