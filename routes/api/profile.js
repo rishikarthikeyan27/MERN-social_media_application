@@ -40,7 +40,7 @@ router.post('/', [  auth, [
 
     async (req,res) => {
         const errors = validationResult(req);
-        if(!errors.isEmpty()){
+        if(!errors.isEmpty()){ //basically if there are errors
             return res.status(400).json({ errors: errors.array() })
         }
 
@@ -75,20 +75,24 @@ router.post('/', [  auth, [
 
         //Build Social object
         profileFields.social = {}
-        if(youtube) profileFields.social.youtube = youtube ;
+        if(youtube) profileFields.social.youtube = youtube ; //if the field named youtube has a value, then ...
         if(facebook) profileFields.social.facebook = facebook ;
         if(twitter) profileFields.social.twitter = twitter ;
         if(instagram) profileFields.social.instagram = instagram ;
         if(linkedin) profileFields.social.linkedin = linkedin ;
 
         try{
-            let profile = await Profile.findOne({user: req.user.id})
+            let profile = await Profile.findOne({user: req.user.id}) //Since we are using async await whenever we use a mongoose method we need to await before it
             if(profile){
                 //Update
-                profile = await Profile.findOneAndUpdate({user : req.user.id}, 
+                profile = await Profile.findOneAndUpdate(
+                {user : req.user.id}, 
                 { $set: profileFields},
-                {new:true});
+                {new:true}
+                );
+
                 return res.json(profile)
+
             }
 
             //Create
