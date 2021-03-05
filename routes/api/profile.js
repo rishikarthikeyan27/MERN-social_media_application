@@ -166,40 +166,46 @@ router.put('/experience', [
             .isEmpty()
         
 ]], 
-async(req, res) => {
-    const errors = validationResult(req);
-    if(!errors.isEmpty()){
-        return res.status(400).json({errors:errors.array()});
-    }
+    async(req, res) => {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()){
+            return res.status(400).json({errors:errors.array()});
+        }
 
-    const {
-       title,
-       company,
-       location,
-       from,
-       to,
-       current,
-       description 
-    } = req.body;
-
-    const newExp = {
+        const {
         title,
         company,
         location,
         from,
         to,
         current,
-        description
+        description 
+        } = req.body;
+
+        const newExp = {
+            title,
+            company,
+            location,
+            from,
+            to,
+            current,
+            description
+        }
+
+        try {
+            const profile = await Profile.findOne({user : req.user.id}); //Remember this is gotten from the auth (Otherwise you will have to signin for every single feauture once you do login )
+
+            await profile.experience.unshift(newExp); //The unshift() method adds one or more elements to the beginning of an array and returns the new length of the array.
+            
+            await profile.save();
+
+            res.json(profile);
+        } catch (err) {
+            console.error(err.message);
+            res.status(500).send('Server Error');
+            
+        }
     }
 
-    try {
-        const profile = await Profile.findOne({user : req.user.id}); //Remember this is gotten from the auth (Otherwise you will have to signin for every single feauture once you do login )
-        profile.experience.unshift(newExp); //The unshift() method adds one or more elements to the beginning of an array and returns the new length of the array.
-        await profile.save();
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error')
-        
-    }
-});
+);
 module.exports = router;
