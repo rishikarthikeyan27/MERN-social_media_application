@@ -7,14 +7,14 @@ const PostSchema = new Schema({
         ref: 'users'
     },
     text:{
-        type:String,
+        type: String,
         required: true
     },
     name:{
         type:String
     },
     avatar: {
-        type:String
+        type: String
     },
     likes:[ //Because there will be an array of users who will like a post
         {
