@@ -208,4 +208,34 @@ router.put('/experience', [
     }
 
 );
+
+//@route    DELETE api/profile/experience/:experience_id
+//@desc     Remove profile experience by the experience ID
+//@access   Private (Hence the middleware auth will be used)
+
+router.delete('/experience/:exp_id', auth, async(req,res) => {
+    try {
+        
+        const profile = await Profile.findOne({ user: req.user.id });
+
+        //Get remove index
+        const removeIndex = profile.experience
+            .map(item => item.id) //A new array with each element being the result of the callback function. So here it gives an array of item IDS
+            .indexOf(req.params.exp_id);
+        
+        console.log(profile.experience.map(item=>item.id));
+
+        profile.experience.splice(removeIndex, 1);
+
+        await profile.save();
+
+        res.json(profile);
+    
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send('Server Error');  
+    }
+})
+
+
 module.exports = router;
