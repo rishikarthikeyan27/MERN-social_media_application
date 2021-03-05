@@ -148,4 +148,58 @@ router.delete('/', auth, async (req, res)=>{
     }
 })
 
+//@route    PUT api/profile/experience
+//@desc     Add profile experience
+//@access   Private (Hence the middleware auth will be used)
+
+router.put('/experience', [ 
+    auth, 
+    [
+        check('title', 'Title is required')
+            .not()
+            .isEmpty(),
+        check('company', 'Company is required')
+            .not()
+            .isEmpty(),
+        check('from', 'From date is required')
+            .not()
+            .isEmpty(),
+        
+]], 
+async(req, res) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors:errors.array()});
+    }
+
+    const {
+       title,
+       company,
+       location,
+       from,
+       to,
+       current,
+       description 
+    } = req.body;
+
+    const newExp = {
+        title,
+        company,
+        location,
+        from,
+        to,
+        current,
+        description
+    }
+
+    try {
+        const profile = await Profile.findOne({user : req.user.id}); //Remember this is gotten from the auth (Otherwise you will have to signin for every single feauture once you do login )
+        profile.experience.unshift(newExp); //The unshift() method adds one or more elements to the beginning of an array and returns the new length of the array.
+        await profile.save();
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error')
+        
+    }
+});
 module.exports = router;
